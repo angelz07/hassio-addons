@@ -1,4 +1,5 @@
 import json
+import sys
 import requests
 from datetime import datetime
 import logging
@@ -109,15 +110,21 @@ def main():
     if ENABLE_TEST_TRANSACTIONS:
         add_test_transactions()
 
-    while True:
-        print("1. Add a new transaction")
-        print("2. View transactions")
-        print("3. Delete a transaction")
-        print("4. Update a transaction")
-        print("5. Calculate profit/loss")
-        print("6. Exit")
+    test_mode = len(sys.argv) > 1 and sys.argv[1] == "test"
 
-        choice = input("Enter your choice: ")
+    while True:
+        if test_mode:
+            choices = iter(["1", "Polygon", "100", "200", "buy", "Binance", "2024-06-19", "6"])
+            choice = next(choices, "6")
+        else:
+            print("1. Add a new transaction")
+            print("2. View transactions")
+            print("3. Delete a transaction")
+            print("4. Update a transaction")
+            print("5. Calculate profit/loss")
+            print("6. Exit")
+            choice = input("Enter your choice: ")
+
         if choice == '1':
             add_new_transaction()
         elif choice == '2':
