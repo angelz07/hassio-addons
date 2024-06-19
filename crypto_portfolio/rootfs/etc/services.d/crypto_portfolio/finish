@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv bashio
+
+# This script is executed when the service stops

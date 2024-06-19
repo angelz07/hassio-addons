@@ -1,0 +1,43 @@
+#include <tunables/global>
+
+profile crypto_portfolio flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+
+  file,
+  signal (send) set=(kill,term,int,hup,cont),
+
+  /init ix,
+  /bin/** ix,
+  /usr/bin/** ix,
+  /run/{s6,s6-rc*,service}/** ix,
+  /package/** ix,
+  /command/** ix,
+  /etc/services.d/** rwix,
+  /etc/cont-init.d/** rwix,
+  /etc/cont-finish.d/** rwix,
+  /run/{,**} rwk,
+  /dev/tty rw,
+
+  /usr/lib/bashio/** ix,
+  /tmp/** rwk,
+
+  /data/** rw,
+
+  /usr/bin/crypto_portfolio cx -> crypto_portfolio,
+
+  profile crypto_portfolio flags=(attach_disconnected,mediate_deleted) {
+    #include <abstractions/base>
+
+    signal (receive) peer=*_crypto_portfolio,
+
+    /data/** rw,
+
+    /share/** rw,
+
+    /usr/bin/crypto_portfolio r,
+    /bin/bash rix,
+    /bin/echo ix,
+    /etc/passwd r,
+    /dev/tty rw,
+  }
+}
