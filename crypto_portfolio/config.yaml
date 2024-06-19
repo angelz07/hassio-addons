@@ -20,4 +20,4 @@ schema:
   update_interval: "str"
   currencies:
     - "str"
-image: "homeassistant/amd64-addon-example:latest"
+image: "local/\\crypto_portfolio:latest"
